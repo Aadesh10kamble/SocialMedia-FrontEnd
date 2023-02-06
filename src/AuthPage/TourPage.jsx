@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { getRequestedTour, setTourOnDefault } from "../actions/tour.actions";
 import { useDispatch, useSelector } from "react-redux";
+import _ from "underscore";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -32,7 +33,8 @@ const TourPage = () => {
     return (<>
         {/* <NavBar /> */}
         {/* <Grid container  alignItems="center" justify="center"> */}
-        <Card sx={cardStyle}>
+        {!_.isEmpty (tourOnView) ?
+        (<Card sx={cardStyle}>
             <Stack direction='row' spacing={2}>
                 {!!tourOnView.images && (tourOnView.images.map((image, index) => (
                     <CardMedia
@@ -57,7 +59,8 @@ const TourPage = () => {
                     {comment.comment}
                 </Typography>))}
             </CardActions>
-        </Card>
+        </Card>) : <h1 style={{textAlign : 'center'}}>No post found</h1>
+        }
         {/* </Grid> */}
     </>);
 };

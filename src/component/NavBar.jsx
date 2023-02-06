@@ -38,28 +38,23 @@ const typographyStyle = {
 const ResponsiveAppBar = () => {
   const { notificationList, loginUser } = useSelector(state => state);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
   const [menuIdentifier, setMenuIdentifier] = React.useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // React.useEffect(() => {
-  //   console.log (loginUser);
-  //   console.log (JSON.parse(localStorage.getItem('user')));
-  //   // setUser(JSON.parse(localStorage.getItem('user')));
-  // }, [loginUser]);
-
   const menuItems = () => {
     if (menuIdentifier === 'notificationMenu') {
-      return (<List sx={{ maxHeight: '300px' }}>
-        {notificationList.map((notification, index) => (
-          <ListItem key={index}>
-            <Divider />
-            <ListItemButton>
-              <ListItemText primary={notification.content} />
-            </ListItemButton>
-          </ListItem>))}
-      </List>)
+      return (!notificationList.length ?
+        <h3>No notifications</h3> :
+        (<List sx={{ maxHeight: '300px' }}>
+          {notificationList.map((notification, index) => (
+            <ListItem key={index}>
+              <Divider />
+              <ListItemButton>
+                <ListItemText primary={notification.content} />
+              </ListItemButton>
+            </ListItem>))}
+        </List>))
     };
     if (menuIdentifier === 'userMenu') {
       return (<Typography textAlign="center"
@@ -114,9 +109,11 @@ const ResponsiveAppBar = () => {
                 notificationList.forEach(note => console.log(note.content));
                 menuOpenHandler(event);
               }}>
-              <Badge badgeContent={notificationList.length} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+              <IconButton color='inherit'>
+                <Badge badgeContent={notificationList.length} color="secondary">
+                  <NotificationsIcon color='inherit' />
+                </Badge>
+              </IconButton>
             </IconButton>
             <Tooltip title="Open settings">
               <IconButton
