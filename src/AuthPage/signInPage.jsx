@@ -1,5 +1,4 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import LoaderComponent from "../component/Loader";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -7,7 +6,6 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -26,16 +24,10 @@ const customStyle = {
 };
 
 const customContainer = {
-  backgroundColor: '#84ef94',
+  backgroundColor: theme.palette.primary,
   borderRadius: '15px',
 };
 
-const customAvatar = {
-  m: 1,
-  bgcolor: "#84ef94",
-  color: 'black',
-  width: 56, height: 56
-};
 
 const buttonDisability = (fields) => {
   for (let field of Object.keys(fields)) {
@@ -83,9 +75,6 @@ const SignUp = () => {
       <Container component="main" maxWidth="xs" sx={customContainer} >
         <CssBaseline />
         <Box sx={customStyle} >
-          <Avatar sx={customAvatar} >
-            <LockOutlinedIcon />
-          </Avatar>
           <Typography component="h1" variant="h5">
             {mode === "login" ? "Log In" : "Sign Up"}
           </Typography>
@@ -134,7 +123,9 @@ const SignUp = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item sx={{ paddingBottom: '10px' }}>
-                <Link onClick={linkHandler} variant="body2" >
+                <Link onClick={linkHandler} variant="body2" 
+                component='button' color='secondary'
+                underline="none">
                   {mode === "login"
                     ? "Already have an account? Login in"
                     : "Don't have an account? Sign Up"}

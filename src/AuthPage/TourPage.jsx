@@ -10,6 +10,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
 import { getImageURL } from "../helper";
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme';
 
 const cardStyle = {
     marginLeft: 'auto',
@@ -30,9 +32,7 @@ const TourPage = () => {
         return () => dispatch(setTourOnDefault());
     }, [dispatch, tourId]);
 
-    return (<>
-        {/* <NavBar /> */}
-        {/* <Grid container  alignItems="center" justify="center"> */}
+    return (<ThemeProvider theme={theme}>
         {!_.isEmpty (tourOnView) ?
         (<Card sx={cardStyle}>
             <Stack direction='row' spacing={2}>
@@ -51,18 +51,17 @@ const TourPage = () => {
                     {tourOnView.name}
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ marginTop: '10px' }}>
-                    {tourOnView.description}
+                    {tourOnView.caption}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                {!!tourOnView.comments && tourOnView.comments.map((comment, index) => (<Typography key={index}>
+                {!!tourOnView.comments.length && tourOnView.comments.map((comment, index) => (<Typography key={index}>
                     {comment.comment}
                 </Typography>))}
             </CardActions>
         </Card>) : <h1 style={{textAlign : 'center'}}>No post found</h1>
         }
-        {/* </Grid> */}
-    </>);
+    </ThemeProvider>);
 };
 
 export default TourPage;

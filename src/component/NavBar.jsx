@@ -24,6 +24,8 @@ import { useNavigate } from 'react-router-dom';
 import { logOut } from '../actions/auth.actions';
 import _ from 'underscore';
 import { getProfilePicURL } from '../helper';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme';
 
 const typographyStyle = {
   mr: 2,
@@ -71,7 +73,7 @@ const ResponsiveAppBar = () => {
     setMenuIdentifier(event.currentTarget.name);
   };
 
-  return (
+  return (<ThemeProvider theme={theme}>
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters >
@@ -148,6 +150,7 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
+  </ThemeProvider>
   );
 }
 export default ResponsiveAppBar;

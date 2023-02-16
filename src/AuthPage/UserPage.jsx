@@ -11,6 +11,8 @@ import { Stack, Typography, Button, CircularProgress } from "@mui/material";
 import { followUser } from '../actions/auth.actions';
 import { getProfilePicURL } from '../helper';
 import _ from "underscore";
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme';
 
 const UserPage = () => {
     const dispatch = useDispatch();
@@ -35,12 +37,12 @@ const UserPage = () => {
         };
     };
 
-    return <>
+    return <ThemeProvider theme={theme}>
         {!isAuthLoading ? (!_.isEmpty(userOnView) ? (<Card sx={{ margin: 'auto', marginTop: '10px', maxWidth: '600px' }}>
             <CardActionArea >
                 <CardMedia
                     component='img'
-                    sx={{ height: '200px', width: 'auto', borderRadius: '50%', margin: 'auto' }}
+                    sx={{ height: '200px', width: 'auto', borderRadius: '50%', margin: 'auto' ,marginTop : '30px'}}
                     src={getProfilePicURL(userOnView.profilePic)}
                 />
                 <CardContent>
@@ -69,11 +71,11 @@ const UserPage = () => {
                     </Stack>
                 </CardContent>
             </CardActionArea>
-            <CardActions disableSpacing sx={{ margin: 'auto' }}>
+            <CardActions disableSpacing sx={{ margin: 'auto' ,justifyContent: 'center'}}>
                 {followButton()}
             </CardActions>
         </Card>) : <h1>ON USER FOUND.</h1>) : <CircularProgress size={40} sx={{ margin: 'auto' }} />}
-    </>
+    </ThemeProvider>
 };
 
 export default UserPage;

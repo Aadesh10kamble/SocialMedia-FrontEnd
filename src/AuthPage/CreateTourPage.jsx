@@ -1,12 +1,12 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { createTour } from '../actions/tour.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderComponent from "../component/Loader";
 import { useNavigate } from 'react-router-dom';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme';
 import {
     Typography,
     TextField,
@@ -15,8 +15,8 @@ import {
     Button
 } from '@mui/material';
 
+
 const CreateTourPage = () => {
-    const { mode } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoading = useSelector(state => state.isToursLoading);
@@ -30,23 +30,26 @@ const CreateTourPage = () => {
         dispatch(createTour(payload, navigate));
     };
 
-    
+
     const onChangeImageHandler = (event) => {
         event.preventDefault();
         const images = [...event.target.files];
-        const imageUrls = images.map (img => URL.createObjectURL(img));
+        const imageUrls = images.map(img => URL.createObjectURL(img));
         setImageUrl(imageUrls);
         setImages(images);
     };
 
-    return (<>
-        <Container maxWidth='sm' sx={{ marginTop: '40px' }} component='form'
+    return (<ThemeProvider theme={theme}>
+        <Container maxWidth='sm' sx={{ marginTop: '30px' }} component='form'
             encType='multipart/form-data'
             onSubmit={onSubmitHandler}>
             <Typography variant='h5'>
-                {mode} Post
+                Create Post
             </Typography >
-            <Grid container spacing={3} sx={{ marginTop: '30px' }}>
+            <Typography variant='body1' sx={{ marginTop: '20px' }}>
+                Add a use Post.
+            </Typography >
+            <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <TextField id="outlined-basic"
                         fullWidth
@@ -55,7 +58,14 @@ const CreateTourPage = () => {
                         helperText='Caption for the post.' />
                 </Grid>
                 <Grid item xs={12}>
-                    <input type='file' name='images' onChange={onChangeImageHandler} multiple />
+                    <label>
+                        <input type='file' name='images'
+                            onChange={onChangeImageHandler}
+                            multiple style={{ display: 'none' }} />
+                        <Button color='primary' component='span'>
+                            Upload Images
+                        </Button>
+                    </label>
                     {!!imageUrl.length && <ImageList sx={{ width: 500, height: 260 }} cols={2} rowHeight={250}>
                         {!!imageUrl.length && imageUrl.map((image, index) =>
                             <ImageListItem key={index}>
@@ -67,12 +77,12 @@ const CreateTourPage = () => {
             </Grid>
             <Button fullWidth
                 type="submit" color='primary'
-                variant="contained" sx={{ mt: 10, mb: 2 }}
+                variant="contained" sx={{ mt: '30px', mb: 2 }}
             >
                 {isLoading ? (<LoaderComponent size='small' />) : 'Create Tour'}
             </Button>
         </Container>
-    </>);
+    </ThemeProvider>);
 };
 
 export default CreateTourPage;

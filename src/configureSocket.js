@@ -6,6 +6,6 @@ window.socket = socket;
 
 export const registerUserSocket = (user) => {
     if (_.isEmpty(user)) return;
-    console.log ("Join request send");
+    console.log("Join request send");
     socket.emit('join', { userId: user._id || user.id });
 };

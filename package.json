@@ -27,6 +27,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:prod" : "set REACT_APP_ENV=production && react-scripts start",
+    "start:dev" : "set REACT_APP_ENV=development && react-scripts start",
     "build": "react-scripts build",
     "predeploy" : "npm run build",
     "deploy" : "gh-pages -d build",

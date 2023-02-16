@@ -6,6 +6,8 @@ import LoaderComponent from "../component/Loader";
 import { updateUserProfile } from "../actions/auth.actions";
 import { useNavigate } from 'react-router-dom';
 import _ from 'underscore';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme';
 import {
     Typography,
     TextField,
@@ -17,19 +19,18 @@ import {
 
 
 const ProfilePage = () => {
-    const navigate = useNavigate ();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { isAuthLoading,loginUser } = useSelector(state => state);
+    const { isAuthLoading, loginUser } = useSelector(state => state);
     const [firstName, setFirstName] = React.useState({ value: '', disabled: true });
     const [lastName, setLastName] = React.useState({ value: '', disabled: true });
-    const [isPicDisabled, setPicDisabled] = React.useState(true);
     const [newImage, setNewImage] = React.useState(null);
 
     React.useEffect(() => {
-        if (_.isEmpty (loginUser)) return navigate ('/tour/account/new');
+        if (_.isEmpty(loginUser)) return navigate('/tour/account/new');
         setFirstName(prevState => ({ ...prevState, value: loginUser.firstName }));
         setLastName(prevState => ({ ...prevState, value: loginUser.lastName }));
-    }, [loginUser,navigate]);
+    }, [loginUser, navigate]);
 
     const profilePicHandler = (event) => setNewImage(event.target.files[0]);
 
@@ -43,7 +44,7 @@ const ProfilePage = () => {
         dispatch(updateUserProfile(payload));
     };
 
-    return (<>
+    return (<ThemeProvider theme={theme}>
         <Container maxWidth='sm' sx={{ marginTop: '40px' }} component='form' encType="multipart/form-data">
             <Typography variant='h5'>
                 Profile
@@ -76,18 +77,14 @@ const ProfilePage = () => {
                         helperText='Enter the last name' />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField id="outlined-basic"
-                        fullWidth
-                        type='file'
-                        variant="outlined"
-                        disabled={isPicDisabled}
-                        InputProps={{
-                            endAdornment: <InputAdornment position="end">
-                                <EditIcon fontSize='small' onClick={() => setPicDisabled(prevState => !prevState)} />
-                            </InputAdornment>,
-                        }}
-                        onChange={profilePicHandler}
-                    />
+                    <label>
+                        <input type='file' name='images'
+                            onChange={profilePicHandler}
+                            style={{ display: 'none' }} />
+                        <Button color='primary' component='span'>
+                            Upload Images
+                        </Button>
+                    </label>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <Avatar src={newImage === null ? "http://localhost:8000/profilePic/loginUser.profilePic" : URL.createObjectURL(newImage)}
@@ -103,7 +100,7 @@ const ProfilePage = () => {
                 {isAuthLoading ? (<LoaderComponent size='small' />) : 'Update Profile'}
             </Button>
         </Container>
-    </>);
+    </ThemeProvider>);
 };
 
 export default ProfilePage;
