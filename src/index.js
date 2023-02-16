@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.REACT_APP_LOCAL_API;
 axios.defaults.contentType = 'application/json';
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?
+  process.env.REACT_APP_LIVE_API : process.env.REACT_APP_LOCAL_API;
 
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem('token');
